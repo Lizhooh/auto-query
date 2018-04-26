@@ -17,12 +17,12 @@ yarn add auto-query
 ```js
 const schema = {
     title: {
-        select: String,
-        data: String | Function,
+        select: String,            // css 选择器
+        data: String | Function,   // 数据项，一般为回调函数，参数为 $el
     }
 };
 
-autoQuery(html, schema);
+autoQuery(html, schema);           // 返回一个数据集
 ```
 
 ### example
