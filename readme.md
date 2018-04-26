@@ -97,11 +97,11 @@ const autoQuery = require('../');
 ### convenient function
 `auto-query` 提供了一些便捷函数供使用。
 
-- #text 等效于 $el.text()
-- #html 等效于 $el.html()
-- #val 等效于 $el.val()
-- #data 等效于 $el.data()
-- @attr 等效于 $el.attr('attr')
+- `#text` 等效于 $el.text()
+- `#html` 等效于 $el.html()
+- `#val` 等效于 $el.val()
+- `#data` 等效于 $el.data()
+- `@attr` 等效于 $el.attr('attr')
 
 例如，获取 `<a>` 的 href，可以使用 `@href`：
 
