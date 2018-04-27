@@ -25,6 +25,26 @@ const schema = {
 autoQuery(html, schema);           // 返回一个数据集
 ```
 
+### convenient function
+`auto-query` 提供了一些便捷函数供使用。
+
+- `#text` 等效于 $el.text()
+- `#html` 等效于 $el.html()
+- `#val` 等效于 $el.val()
+- `#data` 等效于 $el.data()
+- `@attr` 等效于 $el.attr('attr')
+
+例如，获取 `<a>` 的 href，可以使用 `@href`：
+
+```js
+const schema = {
+    url: {
+        select: '.name > a',
+        data: '@href',
+    }
+};
+```
+
 ### example
 
 下面一个示例展示了，如何使用 `auto-query` 获取 html 对应的数据信息。
@@ -94,24 +114,79 @@ const autoQuery = require('../');
 } ();
 ```
 
-### convenient function
-`auto-query` 提供了一些便捷函数供使用。
-
-- `#text` 等效于 $el.text()
-- `#html` 等效于 $el.html()
-- `#val` 等效于 $el.val()
-- `#data` 等效于 $el.data()
-- `@attr` 等效于 $el.attr('attr')
-
-例如，获取 `<a>` 的 href，可以使用 `@href`：
+### array schema
+当 schema 包含数组时，`auto-query` 会根据 css 选择器来解析列表数据。同时 `auto-query` 支持多种数组结构，具体看下面的示例。
 
 ```js
+const html = `
+    <ul class="list">
+        <li>
+            <a href="/l1">l1</a>
+        </li>
+        <li>
+            <a href="/l2">l2</a>
+        </li>
+        <li>
+            <a href="/l3">l3</a>
+        </li>
+    </ul>
+`;
+
 const schema = {
-    url: {
-        select: '.name > a',
+    list1: [{
+        select: '.list > li > a',
         data: '@href',
-    }
+    }],
+    list2: {
+        select: '.list > li',       // 选择出来应该是数组
+        data: [{
+            url: {
+                select: '> a',      // 选择器的范围缩小到 li 内
+                data: '@href',
+            },
+            link: {
+                text: {
+                    select: '> a',
+                    data: '#text',
+                },
+            }
+        }]
+    },
+    list3: {
+        select: '.list > li > a',   // 全局范围
+        data: [{
+            select: '&',
+            data: '@href',
+        }],
+    },
+    list4: {
+        select: '.list > li > a',
+        data: [{
+            url: {
+                select: '&',
+                data: '@href',
+            },
+        }],
+    },
 };
+
+console.log(autoQuery(html, schema));
+/**
+ {
+    list1: ['/l1', '/l2', '/l3'],
+    list2: [
+        { url: '/l1', link: { text: 'l1' } },
+        { url: '/l2', link: { text: 'l2' } },
+        { url: '/l3', link: { text: 'l3' } },
+    ],
+    list3: ['/l1', '/l2', '/l3'],
+    list4: [
+        { url: '/l1' },
+        { url: '/l2' },
+        { url: '/l3' },
+    ],
+};
+*/
 ```
 
 ### update logs

@@ -1,7 +1,7 @@
 const autoQuery = require('./index');
 
 describe('autoQuery', () => {
-    test('base test', () => {
+    test('base test', async () => {
         // HTML
         const html = `
             <div>
@@ -68,10 +68,11 @@ describe('autoQuery', () => {
             }],
         };
 
-        expect(autoQuery(html, schema)).toEqual(data);
+        const res = autoQuery(html, schema);
+        expect(res).toEqual(data);
     });
 
-    test('complex test', () => {
+    test('complex test', async () => {
         // HTML
         const html = `
             <div>
@@ -175,34 +176,45 @@ describe('autoQuery', () => {
                 img: '444.png',
             }],
         };
-
-        expect(autoQuery(html, schema)).toEqual(data);
+        const res = autoQuery(html, schema);
+        expect(res).toEqual(data);
     });
 
-    test('array test', () => {
+    test('array test', async () => {
         const schema = {
             list1: [{
                 select: '.list > li > a',
                 data: '@href',
             }],
-            list2: [{
-                url: [{
-                    select: '.list > li > a',
-                    data: '@href',
-                }]
-            }],
-            list3: {
+            list2: {
                 select: '.list > li',
                 data: [{
-                    select: '> a',
+                    url: {
+                        select: '> a',
+                        data: '@href',
+                    },
+                    link: {
+                        text: {
+                            select: '> a',
+                            data: '#text',
+                        },
+                    }
+                }]
+            },
+            list3: {
+                select: '.list > li > a',
+                data: [{
+                    select: '&',
                     data: '@href',
                 }],
             },
             list4: {
                 select: '.list > li > a',
                 data: [{
-                    select: '&',
-                    data: '@href',
+                    url: {
+                        select: '&',
+                        data: '@href',
+                    },
                 }],
             },
         };
@@ -223,12 +235,21 @@ describe('autoQuery', () => {
 
         const data = {
             list1: ['/l1', '/l2', '/l3'],
-            list2: { url: ['/l1', '/l2', '/l3'] },
+            list2: [
+                { url: '/l1', link: { text: 'l1' } },
+                { url: '/l2', link: { text: 'l2' } },
+                { url: '/l3', link: { text: 'l3' } },
+            ],
             list3: ['/l1', '/l2', '/l3'],
-            list4: ['/l1', '/l2', '/l3'],
+            list4: [
+                { url: '/l1' },
+                { url: '/l2' },
+                { url: '/l3' },
+            ],
         };
-
-        expect(autoQuery(html, schema)).toEqual(data);
+        const res = autoQuery(html, schema);
+        expect(res).toEqual(data);
     });
+
 });
 
