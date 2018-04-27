@@ -97,7 +97,7 @@ const autoQuery = require('../');
        star: '5.4k',
        url: '/AutoMapper/AutoMapper' },
      { name: 'automerge/automerge',
-       summary: 'A JSON-like data structure that can be modified concurrently by different users, and merged again automatically.',
+       summary: 'A JSON-like data structure that can be modified ...',
        star: '5.4k',
        url: '/automerge/automerge' },
      { name: 'NullArray/AutoSploit',
