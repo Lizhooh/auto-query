@@ -122,10 +122,7 @@ describe('autoQuery', () => {
 
         // 模型
         const schema = {
-            text: {
-                select: '#text',
-                data: '#text',
-            },
+            text: '$ #text',
             list: {
                 select: '.list li', // array
                 data: [{
@@ -247,6 +244,7 @@ describe('autoQuery', () => {
                 { url: '/l3' },
             ],
         };
+
         const res = autoQuery(html, schema);
         expect(res).toEqual(data);
     });

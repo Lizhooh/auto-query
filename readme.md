@@ -4,7 +4,7 @@
 
 `auto-query` 是一个基于 `cheerio` 实现的自动查询 DOM 节点数据的工具函数。使用 `auto-query` 非常简单，只需要定义 schema 并且载入 html 即可，`auto-query` 会帮你解析出对于的数据结构。
 
-> 目前为 0.2.0 版本，api 可能会改变。
+> 目前为 0.3.0 版本，api 可能会改变。
 
 ### install
 
@@ -13,26 +13,29 @@ yarn add auto-query
 ```
 
 ### api
+`select` 和 `data` 为特定的属性名称，当一个对象里有 select 和 data 属性时，会被判定为此对象为解析数据的对象。
+
+> autoQuery(html, schema);
 
 ```js
 const schema = {
     title: {
-        select: String,            // css 选择器
-        data: String | Function,   // 数据项，一般为回调函数，参数为 $el
+        select: String,                   // CSS 选择器
+        data: String | Function | Array,  // 数据项，一般为回调函数，参数为 $el
     }
 };
 
-autoQuery(html, schema);           // 返回一个数据集
+autoQuery(html, schema);                  // 返回一个数据集
 ```
 
 ### convenient function
 `auto-query` 提供了一些便捷函数供使用。
 
-- `#text` 等效于 $el.text()
-- `#html` 等效于 $el.html()
-- `#val` 等效于 $el.val()
-- `#data` 等效于 $el.data()
-- `@attr` 等效于 $el.attr('attr')
+- #text 等效于 $el.text();
+- #html 等效于 $el.html();
+- #val 等效于 $el.val();
+- #data 等效于 $el.data();
+- @attr 等效于 $el.attr('attr');
 
 例如，获取 `<a>` 的 href，可以使用 `@href`：
 
@@ -41,7 +44,25 @@ const schema = {
     url: {
         select: '.name > a',
         data: '@href',
-    }
+    },
+};
+```
+
+如果字段为字符串，且 `$` 开头，将识别为选择器，并且返回元素的 text，这可以简化一些代码的编写。
+
+例如 title1、title2、title3 是等效的。
+
+```js
+const schema = {
+    title1: '$ .title',
+    title2: {
+        select: '.title',
+        data: $el => $el.text(),
+    },
+    title3: {
+        select: '.title',
+        data: '#text',
+    },
 };
 ```
 
@@ -56,10 +77,7 @@ const autoQuery = require('../');
 + async function () {
     const html = (await got('https://github.com/search?q=auto')).body;
     const schema = {
-        title: {
-            select: 'head > title',
-            data: '#text',
-        },
+        title: '$ head > title',
         results: {
             select: 'ul.repo-list > div',
             data: [{
@@ -78,9 +96,9 @@ const autoQuery = require('../');
                 url: {
                     select: 'h3 > a',
                     data: '@href',
-                }
+                },
             }],
-        }
+        },
     };
 
     const data = autoQuery(html, schema);
@@ -138,10 +156,10 @@ const schema = {
         data: '@href',
     }],
     list2: {
-        select: '.list > li',       // 选择出来应该是数组
+        select: '.list > li',        // 选择出来应该是数组
         data: [{
             url: {
-                select: '> a',      // 选择器的范围缩小到 li 内
+                select: '> a',       // 选择器的范围缩小到 li 内
                 data: '@href',
             },
             link: {
@@ -149,13 +167,13 @@ const schema = {
                     select: '> a',
                     data: '#text',
                 },
-            }
-        }]
+            },
+        }],
     },
     list3: {
-        select: '.list > li > a',   // 全局范围
+        select: '.list > li > a',    // 全局范围
         data: [{
-            select: '&',
+            select: '&',             // 选择自己
             data: '@href',
         }],
     },
@@ -190,7 +208,7 @@ console.log(autoQuery(html, schema));
 ```
 
 ### update logs
-
+- v0.3.0 (2018-04-27): add a short operation.
 - v0.2.0 (2018-04-27): rewrite the core algorithm.
 - v0.1.0 (2018-04-26): implement basic functions.
 
