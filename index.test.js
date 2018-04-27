@@ -1,7 +1,7 @@
-const autoQuery = require('./');
+const autoQuery = require('./index');
 
 describe('autoQuery', () => {
-    test('test 1', () => {
+    test('base test', () => {
         // HTML
         const html = `
             <div>
@@ -71,7 +71,7 @@ describe('autoQuery', () => {
         expect(autoQuery(html, schema)).toEqual(data);
     });
 
-    test('test 2', () => {
+    test('complex test', () => {
         // HTML
         const html = `
             <div>
@@ -179,4 +179,56 @@ describe('autoQuery', () => {
         expect(autoQuery(html, schema)).toEqual(data);
     });
 
+    test('array test', () => {
+        const schema = {
+            list1: [{
+                select: '.list > li > a',
+                data: '@href',
+            }],
+            list2: [{
+                url: [{
+                    select: '.list > li > a',
+                    data: '@href',
+                }]
+            }],
+            list3: {
+                select: '.list > li',
+                data: [{
+                    select: '> a',
+                    data: '@href',
+                }],
+            },
+            list4: {
+                select: '.list > li > a',
+                data: [{
+                    select: '&',
+                    data: '@href',
+                }],
+            },
+        };
+
+        const html = `
+            <ul class="list">
+                <li>
+                    <a href="/l1">l1</a>
+                </li>
+                <li>
+                    <a href="/l2">l2</a>
+                </li>
+                <li>
+                    <a href="/l3">l3</a>
+                </li>
+            </ul>
+        `;
+
+        const data = {
+            list1: ['/l1', '/l2', '/l3'],
+            list2: { url: ['/l1', '/l2', '/l3'] },
+            list3: ['/l1', '/l2', '/l3'],
+            list4: ['/l1', '/l2', '/l3'],
+        };
+
+        expect(autoQuery(html, schema)).toEqual(data);
+    });
 });
+
