@@ -8,7 +8,6 @@
   },
   "author": "lizhooh",
   "dependencies": {
-    "benchmark": "^2.1.4",
     "cheerio": "latest"
   },
   "devDependencies": {
