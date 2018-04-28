@@ -1,6 +1,6 @@
 {
   "name": "auto-query",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "auto-query is a tool function for automatically querying DOM node data based on cheerio",
   "main": "index.js",
   "scripts": {

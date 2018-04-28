@@ -2,7 +2,11 @@
 
 ## auto-query
 
+<img src="https://img.shields.io/badge/auto--query-build-brightgreen.svg" style="width: auto; height: auto"/>
+<img src="https://img.shields.io/npm/v/auto-query.svg" style="width: auto; height: auto"/>
+
 `auto-query` 是一个基于 `cheerio` 实现的自动查询 DOM 节点数据的工具函数。使用 `auto-query` 非常简单，只需要定义 schema 并且载入 html 即可，`auto-query` 会帮你解析出对于的数据结构。
+
 
 > 目前为 0.3.0 版本，api 可能会改变。
 
@@ -31,11 +35,11 @@ autoQuery(html, schema);                  // 返回一个数据集
 ### convenient function
 `auto-query` 提供了一些便捷函数供使用。
 
-- #text 等效于 $el.text();
-- #html 等效于 $el.html();
-- #val 等效于 $el.val();
-- #data 等效于 $el.data();
-- @attr 等效于 $el.attr('attr');
+- `#text` 等效于 $el.text();
+- `#html` 等效于 $el.html();
+- `#val` 等效于 $el.val();
+- `#data` 等效于 $el.data();
+- `@attr` 等效于 $el.attr('attr');
 
 例如，获取 `<a>` 的 href，可以使用 `@href`：
 
