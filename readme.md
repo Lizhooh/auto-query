@@ -2,8 +2,7 @@
 
 ## auto-query
 
-<img src="https://img.shields.io/badge/auto--query-build-brightgreen.svg" style="width: auto; height: auto"/>
-<img src="https://img.shields.io/npm/v/auto-query.svg" style="width: auto; height: auto"/>
+<img src="https://img.shields.io/badge/auto--query-build-brightgreen.svg" style="width: auto; height: auto"/> <img src="https://img.shields.io/npm/v/auto-query.svg" style="width: auto; height: auto"/>
 
 `auto-query` 是一个基于 `cheerio` 实现的自动查询 DOM 节点数据的工具函数。使用 `auto-query` 非常简单，只需要定义 schema 并且载入 html 即可，`auto-query` 会帮你解析出对于的数据结构。
 
