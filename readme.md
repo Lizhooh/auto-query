@@ -7,7 +7,7 @@
 `auto-query` 是一个基于 `cheerio` 实现的自动查询 DOM 节点数据的工具函数。使用 `auto-query` 非常简单，只需要定义 schema 并且载入 html 即可，`auto-query` 会帮你解析出对于的数据结构。
 
 
-> 目前为 0.3.0 版本，api 可能会改变。
+> Nodejs > 8.0，目前为 1.0.0-beta 版本
 
 ### install
 
@@ -69,6 +69,52 @@ const schema = {
 };
 ```
 
+此外还提供了一些便捷的属性使用，对应的是 String/Array 的操作函数，如果函数参数为空，则对应的值为布尔值，否则为参数数组。
+- String
+    - `trim`
+    - `number` 尝试把 string 转化 number。
+    - `lower`
+    - `upper`
+    - `reverse`
+    - `slice`
+    - `substr`
+    - `concat`
+    - `match`
+    - `replace`
+    - `repeat`
+    - `split`
+- Array
+    - `reverse`
+    - `slice`
+    - `concat`
+    - `fill`
+    - `join`
+    - `splice`
+    - `sort`
+    - `map`
+    - `filter`
+    - `reduce`
+    - `find`
+
+例如，下面的一系列操作：
+
+```js
+const schema = {
+    title: {
+        select: 'head > title',
+        data: '#text',          //  abc, ACB, bac, cab,
+        trim: true,             // 去除两边的空格
+        slice: [0, 100],        // 只取前 100 个字符
+        lower: true,            // 转为小写
+        replace: [/,/, '|'],    // 把 , 替换为 |
+        split: ['|'],           // 按照 | 进行切割
+        sort: [],               // 字典排序as
+    },
+};
+const res = autoQuery(html, schema);
+console.log(res.title);         // ["abc", "acb", "bac", "cab"]
+```
+
 ### example
 
 下面一个示例展示了，如何使用 `auto-query` 获取 html 对应的数据信息。
@@ -86,11 +132,13 @@ const autoQuery = require('../');
             data: [{
                 name: {
                     select: 'h3',
-                    data: $el => $el.text().trim(),
+                    data: '#text',
+                    trim: true,
                 },
                 summary: {
                     select: 'h3 + p',
-                    data: $el => $el.text().trim(),
+                    data: $el => $el.text(),
+                    trim: true,
                 },
                 star: {
                     select: '.text-right',

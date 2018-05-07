@@ -249,5 +249,27 @@ describe('autoQuery', () => {
         expect(res).toEqual(data);
     });
 
+    test('filter test', async () => {
+        const html = `
+            <div id="text">
+                abcd,adas,dasd
+            </div>
+        `;
+
+        const schema = {
+            text: {
+                select: '#text',
+                data: '#text',
+                trim: true,
+                upper: true,
+                slice: [0, 20],
+                split: [','],
+                join: ['-'],
+            },
+        };
+
+        const res = autoQuery(html, schema);
+        expect(res).toEqual({ text: 'ABCD-ADAS-DASD' });
+    });
 });
 
