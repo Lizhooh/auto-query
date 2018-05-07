@@ -259,7 +259,7 @@ console.log(autoQuery(html, schema));
 ```
 
 ### update logs
-- v1.0.1-beta (2018-05-07): query adds one parameter
+- v1.1.0-beta (2018-05-07): query adds one parameter
 - v1.0.0-beta (2018-05-07): add auxiliary functions.
 - v0.3.0 (2018-04-27): add a short operation.
 - v0.2.0 (2018-04-27): rewrite the core algorithm.
