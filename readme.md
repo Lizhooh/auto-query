@@ -7,7 +7,7 @@
 `auto-query` 是一个基于 `cheerio` 实现的自动查询 DOM 节点数据的工具函数。使用 `auto-query` 非常简单，只需要定义 schema 并且载入 html 即可，`auto-query` 会帮你解析出对于的数据结构。
 
 
-> Nodejs > 8.0，目前为 1.0.0-beta 版本
+> Nodejs > 8.0，目前为 1.1.0-beta 版本
 
 ### install
 
@@ -259,6 +259,7 @@ console.log(autoQuery(html, schema));
 ```
 
 ### update logs
+- v1.0.1-beta (2018-05-07): query adds one parameter
 - v1.0.0-beta (2018-05-07): add auxiliary functions.
 - v0.3.0 (2018-04-27): add a short operation.
 - v0.2.0 (2018-04-27): rewrite the core algorithm.
