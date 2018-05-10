@@ -258,7 +258,11 @@ console.log(autoQuery(html, schema));
 */
 ```
 
+### React Native 上使用
+`auto-query` 也可以在 React Native，在 React Native 上使用的是 `cheerio-without-node-native` 而不是 `cheerio`，因为 `cheerio` 在 React Native 上报错。
+
 ### update logs
+- v1.2.0-beta (2018-05-10): support for react native
 - v1.1.0-beta (2018-05-07): query adds one parameter
 - v1.0.0-beta (2018-05-07): add auxiliary functions.
 - v0.3.0 (2018-04-27): add a short operation.
