@@ -44,4 +44,8 @@ export interface Schema {
     [rest: string]: string | Schema | Schema[] | any,
 }
 
-export default function (html: string, schema: Schema): any;
+export interface Options {
+    query: Cheerio,
+}
+
+export default function (html: string, schema: Schema, options: Options): any;
