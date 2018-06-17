@@ -68,7 +68,8 @@ const schema = {
 };
 ```
 
-此外还提供了一些便捷的属性使用，对应的是 String/Array 的操作函数，如果函数参数为空，则对应的值为布尔值，否则为参数数组。
+此外还提供了一些便捷的属性使用，对应的是 String/Array 的操作函数，如果函数参数为空，则对应的值为布尔值，否则为参数数组。。执行的顺序是按照，编写的属性顺序。
+
 - String
     - `trim`
     - `number` 尝试把 string 转化 number。
@@ -128,25 +129,11 @@ const autoQuery = require('../');
         title: '$ head > title',
         results: {
             select: 'ul.repo-list > div',
-            data: [{
-                name: {
-                    select: 'h3',
-                    data: '#text',
-                    trim: true,
-                },
-                summary: {
-                    select: 'h3 + p',
-                    data: $el => $el.text(),
-                    trim: true,
-                },
-                star: {
-                    select: '.text-right',
-                    data: $el => $el.text().trim(),
-                },
-                url: {
-                    select: 'h3 > a',
-                    data: '@href',
-                },
+            data: [{                // <-- 此除表明，解析的数据为数组
+                name: { select: 'h3', data: '#text', trim: true },
+                summary: { select: 'h3 + p', data: '#text', trim: true },
+                star: { select: '.text-right', data: '#text', trim: true },
+                url: { select: 'h3 > a', data: '@href' },
             }],
         },
     };
@@ -278,4 +265,3 @@ autoQuery(html, schema, {
 - v0.3.0 (2018-04-27): add a short operation.
 - v0.2.0 (2018-04-27): rewrite the core algorithm.
 - v0.1.0 (2018-04-26): implement basic functions.
-
